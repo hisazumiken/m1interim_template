@@ -42,8 +42,8 @@
 \setmainfont{Times New Roman}
 % 和文: プリセット未指定時のみ手動設定（プリセット時は luatexja-preset が設定済み）
 \if@usepreset\else
-  \setmainjfont{MS Mincho}[BoldFont=MS Gothic,Scale=1.0]
-  \setsansjfont{MS Gothic}[Scale=1.0]
+  \setmainjfont{MS Mincho}[BoldFont=MS Gothic,Scale=1.0,YokoFeatures={JFM=mono}]
+  \setsansjfont{MS Gothic}[Scale=1.0,YokoFeatures={JFM=mono}]
 \fi
 \RequirePackage{graphicx}
 \RequirePackage{caption}
@@ -53,6 +53,14 @@
 
 % ---- Column separation ----
 \setlength{\columnsep}{6mm}
+
+% ---- Line spacing ----
+% 2ページ目45行基準: textheight(252mm) / 45 = 5.6mm ≈ 15.87bp
+\AtBeginDocument{%
+  \fontsize{10bp}{15.87bp}\selectfont
+  \setlength{\parskip}{0pt}%
+  \ltjsetparameter{kanjiskip=0.5mm plus 0.2mm minus 0.1mm}%
+}
 
 % ---- Section formatting ----
 \titleformat{\section}[block]{\normalsize\bfseries}{\thesection．}{0pt}{}
