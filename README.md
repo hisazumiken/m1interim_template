@@ -79,8 +79,40 @@ lualatex main.tex
 
 MS フォントがない環境（macOS、Linux など）では `haranoaji` を推奨します。
 
+## CI（GitHub Actions）
+
+main ブランチへの push 時に自動で LuaLaTeX ビルドが実行されます。
+ビルド済みの PDF は GitHub Actions の Artifact からダウンロードできます。
+
+> **Note:** `*.pdf` は `.gitignore` に含まれているため、リポジトリには PDF を直接追加できません。
+> PDF の入手方法は以下のいずれかです:
+> - GitHub Actions の Artifact からダウンロード
+> - タグを付けて push すると作成される GitHub Release からダウンロード
+> - ローカルで `latexmk -lualatex main.tex` を実行して生成
+
+### CI の ON/OFF
+
+| やりたいこと | 方法 |
+|---|---|
+| CI を完全にオフ | Actions タブ → ワークフロー選択 → `...` → 「Disable workflow」 |
+| CI を再びオン | 同メニュー → 「Enable workflow」 |
+| 1コミットだけスキップ | コミットメッセージに `[skip ci]` を含める |
+| 手動でビルド | Actions タブ → 「Run workflow」 |
+
+README のみの変更など、`.tex` / `.cls` / `.bib` 以外のファイル変更ではビルドは自動スキップされます。
+
+### リリース
+
+タグを付けて push すると、ビルド後に GitHub Release が自動作成され PDF が添付されます。
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
 ## 注意事項
 
 - **LuaLaTeX** が必須です（pLaTeX / upLaTeX では動作しません）
 - フォントオプション未指定時は MS 明朝・MS ゴシックがシステムにインストールされている必要があります
+- CI 環境ではフォントが自動的に原ノ味 / TeX Gyre Termes に切り替わります
 - 参考文献スタイルは `unsrt`（引用順）です
